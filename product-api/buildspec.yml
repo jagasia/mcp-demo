@@ -1,5 +1,8 @@
 version: 0.2
 
+# The GitHub repo (mcp-demo) holds several projects; this app lives in product-api/.
+# CodeBuild starts at the repo root, so every path below starts with product-api/.
+
 phases:
   install:
     runtime-versions:
@@ -12,24 +15,25 @@ phases:
   build:
     commands:
       - echo "Running tests and packaging the jar"
-      - mvn clean package
+      - mvn -f product-api/pom.xml clean package
   post_build:
     commands:
       - echo "Build finished"
-      - ls -l target/*.jar
+      - ls -l product-api/target/*.jar
 
 # Show JUnit results in the CodeBuild "Reports" tab
 reports:
   junit-reports:
+    base-directory: product-api/target/surefire-reports
     files:
-      - "target/surefire-reports/TEST-*.xml"
+      - "TEST-*.xml"
     file-format: JUNITXML
 
 # What gets handed to Elastic Beanstalk: the jar + Procfile at the zip root
 artifacts:
   files:
-    - target/product-api.jar
-    - Procfile
+    - product-api/target/product-api.jar
+    - product-api/Procfile
   discard-paths: yes
 
 # Reuse downloaded Maven dependencies between builds
