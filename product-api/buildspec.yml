@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+  pre_build:
+    commands:
+      - echo "Java and Maven versions"
+      - java -version
+      - mvn -v
+  build:
+    commands:
+      - echo "Running tests and packaging the jar"
+      - mvn clean package
+  post_build:
+    commands:
+      - echo "Build finished"
+      - ls -l target/*.jar
+
+# Show JUnit results in the CodeBuild "Reports" tab
+reports:
+  junit-reports:
+    files:
+      - "target/surefire-reports/TEST-*.xml"
+    file-format: JUNITXML
+
+# What gets handed to Elastic Beanstalk: the jar + Procfile at the zip root
+artifacts:
+  files:
+    - target/product-api.jar
+    - Procfile
+  discard-paths: yes
+
+# Reuse downloaded Maven dependencies between builds
+cache:
+  paths:
+    - "/root/.m2/**/*"

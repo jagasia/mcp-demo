@@ -1,0 +1,3 @@
+com\example\calculatorclient\controller\ProxyController.class
+com\example\calculatorclient\config\RestTemplateConfig.class
+com\example\calculatorclient\CalculatorClientApplication.class

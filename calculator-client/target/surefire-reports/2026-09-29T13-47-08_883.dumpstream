@@ -1,0 +1,5 @@
+# Created at 2026-09-29T13:47:08.999
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Jag\Empower\2026\testing\calculator-client\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
